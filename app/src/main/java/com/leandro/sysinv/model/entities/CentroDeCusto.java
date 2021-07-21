@@ -97,6 +97,34 @@ public class CentroDeCusto implements Serializable {
         this.novos = novos;
     }
 
+
+    public int getStatusNumerico() {
+        return status.ordinal() + 1;
+    }
+
+    public CcustoStatus getStatusCodigo(int Codigo) {
+
+        CcustoStatus statusTemp = null;
+
+        switch (Codigo) {
+            case 1:
+                statusTemp = CcustoStatus.NAO_INICIALIZADO;
+                break;
+            case 2:
+                statusTemp = CcustoStatus.EM_ANDAMENTO;
+                break;
+            case 3:
+                statusTemp = CcustoStatus.FINALIZADO;
+                break;
+            case 4:
+                statusTemp = CcustoStatus.ATIVO;
+                break;
+        }
+
+        return statusTemp;
+
+    };
+
     @Override
     public String toString() {
         return "CentroDeCusto{" +
