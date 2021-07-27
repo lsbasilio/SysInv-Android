@@ -2,17 +2,19 @@ package com.leandro.sysinv.model.dao.impl;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.leandro.sysinv.db.DbException;
 import com.leandro.sysinv.model.dao.CentroDeCustoDao;
 import com.leandro.sysinv.model.entities.CentroDeCusto;
-import com.leandro.sysinv.model.entities.enums.CcustoStatus;
-
-import java.sql.PreparedStatement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import static com.leandro.sysinv.util.Util.DateToStr;
+import static com.leandro.sysinv.util.Util.TryParseToDate;
 
 public class CentroDeCustoSqLite implements CentroDeCustoDao {
 
@@ -27,11 +29,11 @@ public class CentroDeCustoSqLite implements CentroDeCustoDao {
 
         try {
 
-            strSQL = "INSERT INTO centrodecusto VALUES ";
+            strSQL = "INSERT INTO centrodecusto";
             strSQL += "(Ccusto_id,Descricao,Status,Data_Inicio,Data_Fim,Pendentes,Inventariados,Novos) ";
             strSQL += " VALUES ";
-            strSQL += "(" + obj.getCcusto_id() + ", '" + obj.getDescricao() + "', " + obj.getStatusNumerico() + ", '" + obj.getData_inicio() + "','";
-            strSQL += obj.getData_fim() + "', " + obj.getPendentes() + ", " + obj.getInventariados() + ", " + obj.getNovos() + ")";
+            strSQL += "(" + obj.getCcusto_id() + ", '" + obj.getDescricao() + "', " + obj.getStatusNumerico() + ", '" + DateToStr(obj.getData_inicio()) + "','";
+            strSQL += DateToStr(obj.getData_fim()) + "', " + obj.getPendentes() + ", " + obj.getInventariados() + ", " + obj.getNovos() + ")";
 
             conn.execSQL(strSQL);
 
@@ -47,8 +49,8 @@ public class CentroDeCustoSqLite implements CentroDeCustoDao {
             strSQL = "UPDATE centrodecusto SET ";
             strSQL += "Descricao = '" + obj.getDescricao() + "', ";
             strSQL += "Status = " + obj.getStatusNumerico() + ", ";
-            strSQL += "Data_Inicio = '" + obj.getData_inicio() + "', ";
-            strSQL += "Data_Fim = '" + obj.getData_fim() + "', ";
+            strSQL += "Data_Inicio = '" + DateToStr(obj.getData_inicio()) + "', ";
+            strSQL += "Data_Fim = '" + DateToStr(obj.getData_fim()) + "', ";
             strSQL += "Pendentes = " + obj.getPendentes() + ", ";
             strSQL += "Inventariados = " + obj.getInventariados() + ", ";
             strSQL += "Novos = " + obj.getNovos();
@@ -78,8 +80,8 @@ public class CentroDeCustoSqLite implements CentroDeCustoDao {
 
             Cursor cursor = conn.rawQuery("SELECT * FROM centrodecusto WHERE Ccusto_Id = " + id, null);
 
-            if (cursor.moveToNext()) {
-               instantiateCentroDeCusto(cursor);
+            if (cursor.moveToFirst()) {
+              return instantiateCentroDeCusto(cursor);
             }
 
             return null;
@@ -122,14 +124,16 @@ public class CentroDeCustoSqLite implements CentroDeCustoDao {
 
     private CentroDeCusto instantiateCentroDeCusto(Cursor cur) throws ParseException {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+
 
         CentroDeCusto ccustoTemp = new CentroDeCusto();
         ccustoTemp.setCcusto_id(cur.getInt(0));
         ccustoTemp.setDescricao(cur.getString(1));
         ccustoTemp.setStatus(ccustoTemp.getStatusCodigo(cur.getInt(2)));
-        ccustoTemp.setData_inicio(sdf.parse(cur.getString(3)));
-        ccustoTemp.setData_fim(sdf.parse(cur.getString(4)));
+        ccustoTemp.setData_inicio(TryParseToDate(cur.getString(3)));
+        ccustoTemp.setData_fim(TryParseToDate(cur.getString(4)));
         ccustoTemp.setPendentes(cur.getInt(5));
         ccustoTemp.setInventariados(cur.getInt(6));
         ccustoTemp.setNovos(cur.getInt(7));

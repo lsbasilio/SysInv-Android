@@ -33,7 +33,7 @@ public class CentroDeCusto implements Serializable {
         this.novos = novos;
     }
 
-    public int getCcusto_id() {
+    public Integer getCcusto_id() {
         return ccusto_id;
     }
 
@@ -73,7 +73,7 @@ public class CentroDeCusto implements Serializable {
         this.data_fim = data_fim;
     }
 
-    public int getPendentes() {
+    public Integer getPendentes() {
         return pendentes;
     }
 
@@ -81,7 +81,7 @@ public class CentroDeCusto implements Serializable {
         this.pendentes = pendentes;
     }
 
-    public int getInventariados() {
+    public Integer getInventariados() {
         return inventariados;
     }
 
@@ -89,7 +89,7 @@ public class CentroDeCusto implements Serializable {
         this.inventariados = inventariados;
     }
 
-    public int getNovos() {
+    public Integer getNovos() {
         return novos;
     }
 
@@ -99,7 +99,10 @@ public class CentroDeCusto implements Serializable {
 
 
     public int getStatusNumerico() {
-        return status.ordinal() + 1;
+        if (this.status == null)
+            return 1;
+        else
+            return this.status.ordinal() + 1;
     }
 
     public CcustoStatus getStatusCodigo(int Codigo) {
