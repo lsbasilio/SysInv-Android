@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class Db {
 
     private static SQLiteDatabase conn = null;
@@ -27,6 +25,8 @@ public class Db {
                 dadosOpenHelper = new DadosOpenHelper(context);
                 conn = dadosOpenHelper.getWritableDatabase();
 
+                criaTabelas();
+
                 Log.i("Conectou", "ao SqLite");
             }
 
@@ -35,6 +35,15 @@ public class Db {
         }
 
         return conn;
+    }
+
+    public static void criaTabelas() {
+
+        conn.execSQL(getTableCentroCusto());
+        conn.execSQL(getTableLocais());
+        conn.execSQL(getTableDescrComplementar());
+        conn.execSQL(getTableDescrPadrao());
+
     }
 
     public static void closeConnection() {
@@ -58,5 +67,23 @@ public class Db {
                 "PENDENTES INTEGER," +
                 "INVENTARIADOS INTEGER," +
                 "NOVOS INTEGER);";
+    }
+
+    public static String getTableLocais() {
+        return "CREATE TABLE IF NOT EXISTS locais ( " +
+               "LOCAL_ID INTEGER NOT NULL PRIMARY KEY," +
+               "DESCRICAO TEXT);";
+    }
+
+    public static String getTableDescrComplementar() {
+        return "CREATE TABLE IF NOT EXISTS descrcomplementar ( " +
+               "DESCRICAO_ID TEXT NOT NULL PRIMARY KEY," +
+               "DESCRICAO TEXT);";
+    }
+
+    public static String getTableDescrPadrao() {
+        return "CREATE TABLE IF NOT EXISTS descrpadrao ( " +
+                "DESCRICAO_ID TEXT NOT NULL PRIMARY KEY," +
+                "DESCRICAO TEXT);";
     }
 }

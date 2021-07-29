@@ -2,15 +2,13 @@ package com.leandro.sysinv.model.dao.impl;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-
+import android.database.sqlite.SQLiteException;
 import com.leandro.sysinv.db.DbException;
 import com.leandro.sysinv.model.dao.CentroDeCustoDao;
 import com.leandro.sysinv.model.entities.CentroDeCusto;
-import java.text.ParseException;
+import com.leandro.sysinv.model.entities.enums.CcustoStatus;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static com.leandro.sysinv.util.Util.DateToStr;
@@ -37,7 +35,7 @@ public class CentroDeCustoSqLite implements CentroDeCustoDao {
 
             conn.execSQL(strSQL);
 
-        } catch (Exception e) {
+        } catch (SQLiteException e) {
             throw new DbException(e.getMessage());
         }
 
@@ -58,7 +56,7 @@ public class CentroDeCustoSqLite implements CentroDeCustoDao {
 
             conn.execSQL(strSQL);
 
-        } catch (Exception e) {
+        } catch (SQLiteException e) {
             throw new DbException(e.getMessage());
         }
     }
@@ -70,7 +68,7 @@ public class CentroDeCustoSqLite implements CentroDeCustoDao {
 
             conn.execSQL(strSQL);
 
-        } catch (Exception e) {
+        } catch (SQLiteException e) {
             throw new DbException(e.getMessage());
         }
     }
@@ -86,7 +84,23 @@ public class CentroDeCustoSqLite implements CentroDeCustoDao {
 
             return null;
 
-        } catch (Exception e) {
+        } catch (SQLiteException e) {
+            throw new DbException(e.getMessage());
+        }
+    }
+
+    public CentroDeCusto findCcustoAtivo() {
+        try {
+
+            Cursor cursor = conn.rawQuery("SELECT * FROM centrodecusto WHERE Status = " + Integer.toString(CcustoStatus.ATIVO.ordinal() + 1), null);
+
+            if (cursor.moveToFirst()) {
+                return instantiateCentroDeCusto(cursor);
+            }
+
+            return null;
+
+        } catch (SQLiteException e) {
             throw new DbException(e.getMessage());
         }
     }
@@ -105,7 +119,7 @@ public class CentroDeCustoSqLite implements CentroDeCustoDao {
 
             return list;
 
-        } catch (Exception e) {
+        } catch (SQLiteException e) {
             throw new DbException(e.getMessage());
         }
     }
@@ -117,12 +131,12 @@ public class CentroDeCustoSqLite implements CentroDeCustoDao {
 
             conn.execSQL(strSQL);
 
-        } catch (Exception e) {
+        } catch (SQLiteException e) {
             throw new DbException(e.getMessage());
         }
     }
 
-    private CentroDeCusto instantiateCentroDeCusto(Cursor cur) throws ParseException {
+    private CentroDeCusto instantiateCentroDeCusto(Cursor cur) throws SQLiteException {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 

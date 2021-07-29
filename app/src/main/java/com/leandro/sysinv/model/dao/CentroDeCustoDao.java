@@ -10,6 +10,7 @@ public interface CentroDeCustoDao {
     void update(CentroDeCusto obj);
     void deleteById(Integer id);
     CentroDeCusto findById(Integer id);
+    CentroDeCusto findCcustoAtivo();
     List<CentroDeCusto> findAll();
     void deleteAll();
 }

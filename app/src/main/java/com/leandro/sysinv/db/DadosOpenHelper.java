@@ -2,7 +2,10 @@ package com.leandro.sysinv.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 
 
@@ -16,9 +19,18 @@ public class DadosOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        /*try {
 
-        db.execSQL(Db.getTableCentroCusto());
+            Log.i("Teste!", "Passou aqui");
 
+            db.execSQL(Db.getTableCentroCusto());
+            db.execSQL(Db.getTableLocais());
+            db.execSQL(Db.getTableDescrComplementar());
+            db.execSQL(Db.getTableDescrPadrao());
+
+        } catch (SQLiteException e) {
+            throw new DbException(e.getMessage());
+        }*/
     }
 
     @Override
