@@ -138,9 +138,7 @@ public class CentroDeCustoSqLite implements CentroDeCustoDao {
 
     private CentroDeCusto instantiateCentroDeCusto(Cursor cur) throws SQLiteException {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-
-
+        //SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
         CentroDeCusto ccustoTemp = new CentroDeCusto();
         ccustoTemp.setCcusto_id(cur.getInt(0));

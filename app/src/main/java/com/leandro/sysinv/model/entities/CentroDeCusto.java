@@ -19,7 +19,14 @@ public class CentroDeCusto implements Serializable {
     private Integer novos;
 
     public CentroDeCusto() {
-
+        this.ccusto_id = 0;
+        this.descricao = "";
+        this.status = CcustoStatus.NAO_INICIALIZADO;
+        /*this.data_inicio = data_inicio;
+        this.data_fim = data_fim;*/
+        this.pendentes = 0;
+        this.inventariados = 0;
+        this.novos = 0;
     }
 
     public CentroDeCusto(int ccusto_id, String descricao, CcustoStatus status, Date data_inicio, Date data_fim, int pendentes, int inventariados, int novos) {
@@ -31,6 +38,11 @@ public class CentroDeCusto implements Serializable {
         this.pendentes = pendentes;
         this.inventariados = inventariados;
         this.novos = novos;
+    }
+
+    public CentroDeCusto(int ccusto_id, String descricao) {
+        this.ccusto_id = ccusto_id;
+        this.descricao = descricao;
     }
 
     public Integer getCcusto_id() {
@@ -100,9 +112,9 @@ public class CentroDeCusto implements Serializable {
 
     public int getStatusNumerico() {
         if (this.status == null)
-            return 1;
+            return 0;
         else
-            return this.status.ordinal() + 1;
+            return this.status.ordinal();
     }
 
     public CcustoStatus getStatusCodigo(int Codigo) {
@@ -110,23 +122,23 @@ public class CentroDeCusto implements Serializable {
         CcustoStatus statusTemp = null;
 
         switch (Codigo) {
-            case 1:
+            case 0:
                 statusTemp = CcustoStatus.NAO_INICIALIZADO;
                 break;
-            case 2:
+            case 1:
                 statusTemp = CcustoStatus.EM_ANDAMENTO;
                 break;
-            case 3:
+            case 2:
                 statusTemp = CcustoStatus.FINALIZADO;
                 break;
-            case 4:
+            case 3:
                 statusTemp = CcustoStatus.ATIVO;
                 break;
         }
 
         return statusTemp;
 
-    };
+    }
 
     @Override
     public String toString() {

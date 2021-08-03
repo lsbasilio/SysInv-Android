@@ -43,6 +43,7 @@ public class Db {
         conn.execSQL(getTableLocais());
         conn.execSQL(getTableDescrComplementar());
         conn.execSQL(getTableDescrPadrao());
+        conn.execSQL(getTableBens());
 
     }
 
@@ -85,5 +86,33 @@ public class Db {
         return "CREATE TABLE IF NOT EXISTS descrpadrao ( " +
                 "DESCRICAO_ID TEXT NOT NULL PRIMARY KEY," +
                 "DESCRICAO TEXT);";
+    }
+
+    public static String getTableBens() {
+        return  "CREATE TABLE IF NOT EXISTS bens (" +
+                "NUMERO_BEM INTEGER NOT NULL PRIMARY KEY," +
+                "CCUSTO_ID INTEGER," +
+                "STATUS INTEGER,"+
+                "DATA_INV TEXT,"+
+                "CONTA INTEGER,"+
+                "DATA TEXT,"+
+                "OBSERVACAO TEXT,"+
+                "LOCAL_ID INTEGER,"+
+                "USUARIO TEXT,"+
+                "DESCRICAO TEXT,"+
+                "MARCA TEXT,"+
+                "MODELO TEXT,"+
+                "NUMERO_SERIE TEXT,"+
+                "SITUACAO TEXT,"+
+                "NUMERO_BEMANT INTEGER,"+
+                "CCUSTO_ANT INTEGER,"+
+                "LOCAL_ANT INTEGER,"+
+                "DESCRICAO_ANT TEXT,"+
+                "MARCA_ANT TEXT,"+
+                "MODELO_ANT TEXT,"+
+                "NUMERO_SERIEANT TEXT,"+
+                "SITUACAO_ANT TEXT,"+
+                "FOREIGN KEY (CCUSTO_ID) REFERENCES CENTRODECUSTO(CCUSTO_ID),"+
+                "FOREIGN KEY (LOCAL_ID) REFERENCES LOCAIS(LOCAL_ID));";
     }
 }

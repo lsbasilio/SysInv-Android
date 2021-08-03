@@ -30,7 +30,20 @@ public class Bens {
     private String situacao_ant;
 
     public Bens() {
-
+        this.numero_bem = 0;
+        this.ccusto_atual = null;
+        this.status = BensStatus.NAO_ENCONTRADO;
+        //this.data_inv = data_inv;
+        this.conta = 0;
+        //this.data = data;
+        this.observacao = "";
+        this.local_atual = null;
+        this.usuario = "";
+        this.descricao = "";
+        this.marca = "";
+        this.modelo = "";
+        this.numero_serie = "";
+        this.situacao = "";
     }
 
     public Bens(Integer numero_bem, CentroDeCusto ccusto_atual, BensStatus status, Date data_inv, Integer conta, Date data, String observacao, Local local_atual, String usuario, String descricao, String marca, String modelo, String numero_serie, String situacao, Integer numero_bemant, CentroDeCusto ccusto_ant, Local local_ant, String descricao_ant, String marca_ant, String modelo_ant, String numero_serieant, String situacao_ant) {
@@ -232,6 +245,39 @@ public class Bens {
 
     public void setSituacao_ant(String situacao_ant) {
         this.situacao_ant = situacao_ant;
+    }
+
+    public int getStatusNumerico() {
+        if (this.status == null)
+            return 0;
+        else
+            return this.status.ordinal();
+    }
+
+    public BensStatus getStatusCodigo(int Codigo) {
+
+       BensStatus statusTemp = null;
+
+        switch (Codigo) {
+            case 0:
+                statusTemp = BensStatus.NAO_ENCONTRADO;
+                break;
+            case 1:
+                statusTemp = BensStatus.PENDENTE;
+                break;
+            case 2:
+                statusTemp = BensStatus.INVENTARIADO;
+                break;
+            case 3:
+                statusTemp = BensStatus.NUMERO_TROCADO;
+                break;
+            case 4:
+                statusTemp = BensStatus.NOVO;
+                break;
+        }
+
+        return statusTemp;
+
     }
 
     @Override
