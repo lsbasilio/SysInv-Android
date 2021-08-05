@@ -43,6 +43,12 @@ public class CentroDeCusto implements Serializable {
     public CentroDeCusto(int ccusto_id, String descricao) {
         this.ccusto_id = ccusto_id;
         this.descricao = descricao;
+        this.status = CcustoStatus.NAO_INICIALIZADO;
+        /*this.data_inicio = data_inicio;
+        this.data_fim = data_fim;*/
+        this.pendentes = 0;
+        this.inventariados = 0;
+        this.novos = 0;
     }
 
     public Integer getCcusto_id() {

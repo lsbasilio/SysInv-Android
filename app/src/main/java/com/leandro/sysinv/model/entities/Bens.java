@@ -21,8 +21,8 @@ public class Bens {
     private String numero_serie;
     private String situacao;
     private Integer numero_bemant;
-    private CentroDeCusto ccusto_ant;
-    private Local local_ant;
+    private Integer ccusto_ant;
+    private Integer local_ant;
     private String descricao_ant;
     private String marca_ant;
     private String modelo_ant;
@@ -31,6 +31,7 @@ public class Bens {
 
     public Bens() {
         this.numero_bem = 0;
+        this.numero_bemant = 0;
         this.ccusto_atual = null;
         this.status = BensStatus.NAO_ENCONTRADO;
         //this.data_inv = data_inv;
@@ -46,7 +47,7 @@ public class Bens {
         this.situacao = "";
     }
 
-    public Bens(Integer numero_bem, CentroDeCusto ccusto_atual, BensStatus status, Date data_inv, Integer conta, Date data, String observacao, Local local_atual, String usuario, String descricao, String marca, String modelo, String numero_serie, String situacao, Integer numero_bemant, CentroDeCusto ccusto_ant, Local local_ant, String descricao_ant, String marca_ant, String modelo_ant, String numero_serieant, String situacao_ant) {
+    public Bens(Integer numero_bem, CentroDeCusto ccusto_atual, BensStatus status, Date data_inv, Integer conta, Date data, String observacao, Local local_atual, String usuario, String descricao, String marca, String modelo, String numero_serie, String situacao, Integer numero_bemant, Integer ccusto_ant, Integer local_ant, String descricao_ant, String marca_ant, String modelo_ant, String numero_serieant, String situacao_ant) {
         this.numero_bem = numero_bem;
         this.ccusto_atual = ccusto_atual;
         this.status = status;
@@ -191,19 +192,19 @@ public class Bens {
         this.numero_bemant = numero_bemant;
     }
 
-    public CentroDeCusto getCcusto_ant() {
+    public Integer getCcusto_ant() {
         return ccusto_ant;
     }
 
-    public void setCcusto_ant(CentroDeCusto ccusto_ant) {
+    public void setCcusto_ant(Integer ccusto_ant) {
         this.ccusto_ant = ccusto_ant;
     }
 
-    public Local getLocal_ant() {
+    public Integer getLocal_ant() {
         return local_ant;
     }
 
-    public void setLocal_ant(Local local_ant) {
+    public void setLocal_ant(Integer local_ant) {
         this.local_ant = local_ant;
     }
 

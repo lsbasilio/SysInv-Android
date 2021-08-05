@@ -8,7 +8,7 @@ public interface DescrComplementarDao {
 
     void insert(DescrComplementar obj);
     void update(DescrComplementar obj);
-    void deleteById(Integer id);
+    void deleteById(String id);
     DescrComplementar findById(String id);
     List<DescrComplementar> findAll();
     void deleteAll();

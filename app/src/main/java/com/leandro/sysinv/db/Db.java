@@ -16,9 +16,6 @@ public class Db {
 
     public static SQLiteDatabase getConnection(Context context) {
 
-        //SQLiteDatabase bancoDados = openOrCreateDatabase("app", MODE_PRIVATE, null);
-
-
         try {
             if (conn == null) {
 

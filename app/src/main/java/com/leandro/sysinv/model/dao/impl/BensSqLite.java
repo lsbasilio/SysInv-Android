@@ -82,7 +82,7 @@ public class BensSqLite implements BensDao {
         try {
 
             strSQL = "UPDATE bens ";
-            strSQL += "SET Ccusto_Id = " + obj.getCcusto_ant().getCcusto_id() + ", ";
+            strSQL += "SET Ccusto_Id = " + obj.getCcusto_ant() + ", ";
             if (obj.getNumero_bemant() > 0) {
                 strSQL += "Numero_Bem = " + obj.getNumero_bemant() + ", ";
                 strSQL += "Numero_BemAnt = 0, ";
@@ -90,7 +90,7 @@ public class BensSqLite implements BensDao {
             strSQL += "Status = " + obj.getStatusNumerico() + ", ";
             strSQL += "Data_Inv = '" + DateToStr(obj.getData_inv()) + "', ";
             strSQL += "Observacao = '" + obj.getObservacao() + "', ";
-            strSQL += "Local_Id = " + obj.getLocal_ant().getLocal_id() + ", ";
+            strSQL += "Local_Id = " + obj.getLocal_ant() + ", ";
             strSQL += "Usuario = '" + obj.getUsuario() + "', ";
             strSQL += "Descricao = '" + obj.getDescricao_ant() + "', ";
             strSQL += "Marca = '" + obj.getMarca_ant() + "', ";
@@ -141,13 +141,22 @@ public class BensSqLite implements BensDao {
         try {
 
             Cursor cursor = conn.rawQuery("SELECT Bens.*, centrodecusto.DESCRICAO As DescCCusto, locais.DESCRICAO As DescLocais " +
-                    "FROM Bens INNER JOIN centrodecusto " +
+                    "FROM Bens LEFT JOIN centrodecusto " +
                     "ON Bens.CCUSTO_ID = centrodecusto.CCUSTO_ID " +
-                    "INNER JOIN locais ON Bens.LOCAL_ID = locais.LOCAL_ID " +
+                    "LEFT JOIN locais ON Bens.LOCAL_ID = locais.LOCAL_ID " +
                     "WHERE Numero_Bem = " + id, null);
 
+            //int indiceCodCcustoAnt = cursor.getColumnIndex("CCUSTO_ANT");
+
             if (cursor.moveToFirst()) {
+
                 CentroDeCusto ccusto = instantiateCentroDeCusto(cursor);
+                /*CentroDeCusto ccustoAnt = null;
+
+                // Centro de Custo Anterior
+                if (!cursor.isNull(indiceCodCcustoAnt))
+                    ccustoAnt = instantiateCentroDeCustoAnt(cursor.getInt(indiceCodCcustoAnt));*/
+
                 Local local = instantiateLocal(cursor);
                 return instantiateBem(cursor, ccusto, local);
             }
@@ -163,9 +172,9 @@ public class BensSqLite implements BensDao {
         try {
 
             Cursor cursor = conn.rawQuery("SELECT Bens.*, centrodecusto.DESCRICAO As DescCCusto, locais.DESCRICAO As DescLocais " +
-                            "FROM Bens INNER JOIN centrodecusto " +
+                            "FROM Bens LEFT JOIN centrodecusto " +
                             "ON Bens.CCUSTO_ID = centrodecusto.CCUSTO_ID " +
-                            "INNER JOIN locais ON Bens.LOCAL_ID = locais.LOCAL_ID ORDER BY Numero_Bem", null);
+                            "LEFT JOIN locais ON Bens.LOCAL_ID = locais.LOCAL_ID ORDER BY Numero_Bem", null);
 
             int indiceCodCcusto = cursor.getColumnIndex("CCUSTO_ID");
             int indiceLocal = cursor.getColumnIndex("LOCAL_ID");
@@ -230,6 +239,20 @@ public class BensSqLite implements BensDao {
         return ccustoTemp;
     }
 
+ /*   private CentroDeCusto instantiateCentroDeCustoAnt(int id) throws SQLiteException {
+
+        CentroDeCustoSqLite ccustoDAO = new CentroDeCustoSqLite(conn);
+
+        CentroDeCusto ccustoTemp = ccustoDAO.findById(id);
+
+        if (ccustoTemp != null) {
+            ccustoTemp.setCcusto_id(id);
+            ccustoTemp.setDescricao(ccustoTemp.getDescricao());
+        }
+
+        return ccustoTemp;
+    }*/
+
     private Local instantiateLocal(Cursor cur) throws SQLiteException {
 
         int indiceCodLocal = cur.getColumnIndex("LOCAL_ID");
@@ -267,7 +290,8 @@ public class BensSqLite implements BensDao {
         bemTemp.setNumero_serie(cur.getString(12));
         bemTemp.setSituacao(cur.getString(13));
         bemTemp.setNumero_bemant(cur.getInt(14));
-        //if (bemTemp.getCcusto_ant() != null)
+
+       //if (bemTemp.getCcusto_ant() != null)
 
         /*if (cur.getInt(16) != 0) {
            // bemTemp.setLocal_ant(locaisDAO.findById(cur.getInt(16)));

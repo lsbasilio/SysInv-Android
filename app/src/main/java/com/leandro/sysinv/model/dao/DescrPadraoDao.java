@@ -8,7 +8,7 @@ public interface DescrPadraoDao {
 
     void insert(DescrPadrao obj);
     void update(DescrPadrao obj);
-    void deleteById(Integer id);
+    void deleteById(String id);
     DescrPadrao findById(String id);
     List<DescrPadrao> findAll();
     void deleteAll();

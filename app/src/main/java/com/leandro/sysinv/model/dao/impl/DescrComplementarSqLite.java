@@ -5,12 +5,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
 import com.leandro.sysinv.db.DbException;
+import com.leandro.sysinv.model.dao.DescrComplementarDao;
 import com.leandro.sysinv.model.entities.DescrComplementar;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DescrComplementarSqLite {
+public class DescrComplementarSqLite implements DescrComplementarDao {
 
     private SQLiteDatabase conn;
     private String strSQL;

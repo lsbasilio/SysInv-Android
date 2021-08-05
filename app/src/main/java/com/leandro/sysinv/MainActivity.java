@@ -37,6 +37,26 @@ public class MainActivity extends AppCompatActivity {
 
        // Db conn = new Db();
 
+        TestaBens();
+
+        //bensDAO.deleteById(2);
+
+        /*Cursor cur = bancoDados.rawQuery("SELECT * FROM bens", null);
+
+        while (cur.moveToNext()) {
+            Log.i("Resultado - id: ", cur.getString(0));
+            Log.i("Resultado - nome: ", cur.getString(9));
+            Log.i("Resultado - ccusto: ", cur.getString(1));
+            Log.i("Resultado - local: ", cur.getString(7));
+
+        }*/
+
+        Db.closeConnection();
+
+    }
+
+    public void TestaBens() {
+
         SQLiteDatabase bancoDados = Db.getConnection(this);
         BensSqLite bensDAO = new BensSqLite(bancoDados);
         CentroDeCustoSqLite ccustoDAO = new CentroDeCustoSqLite(bancoDados);
@@ -65,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
         CentroDeCusto ccusto2 = new CentroDeCusto(2, "Ccusto 2");
         obj2.setCcusto_atual(ccusto2);
         ccustoDAO.insert(ccusto2);
+
+        CentroDeCusto ccustoAnterior = new CentroDeCusto(666, "Ccusto Anterior");
+        ccustoDAO.insert(ccustoAnterior);
 
         Local local2 = new Local(2, "Local 2");
         obj2.setLocal_atual(local2);
@@ -104,19 +127,8 @@ public class MainActivity extends AppCompatActivity {
         Bens obj3 = bensDAO.findById(1);
         Log.i("Achou - ", obj3.getDescricao());
 
-        //bensDAO.deleteById(2);
-
-        /*Cursor cur = bancoDados.rawQuery("SELECT * FROM bens", null);
-
-        while (cur.moveToNext()) {
-            Log.i("Resultado - id: ", cur.getString(0));
-            Log.i("Resultado - nome: ", cur.getString(9));
-            Log.i("Resultado - ccusto: ", cur.getString(1));
-            Log.i("Resultado - local: ", cur.getString(7));
-
-        }*/
-
-        Db.closeConnection();
+        Log.i("Ccusto", ccusto1.toString());
+        Log.i("Ccusto", ccusto2.toString());
 
     }
 }

@@ -5,12 +5,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
 import com.leandro.sysinv.db.DbException;
+import com.leandro.sysinv.model.dao.DescrPadraoDao;
 import com.leandro.sysinv.model.entities.DescrPadrao;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DescrPadraoSqLite {
+public class DescrPadraoSqLite implements DescrPadraoDao {
 
     private SQLiteDatabase conn;
     private String strSQL;
@@ -50,7 +51,7 @@ public class DescrPadraoSqLite {
         }
     }
 
-    public void deleteById(Integer id) {
+    public void deleteById(String id) {
         try {
 
             strSQL = "DELETE FROM descrpadrao WHERE Descricao_id = '" + id + "'";
