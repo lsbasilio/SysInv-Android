@@ -51,7 +51,7 @@ public class DescrComplementarSqLite implements DescrComplementarDao {
         }
     }
 
-    public void deleteById(Integer id) {
+    public void deleteById(String id) {
         try {
 
             strSQL = "DELETE FROM descrcomplementar WHERE Descricao_id = '" + id + "'";
