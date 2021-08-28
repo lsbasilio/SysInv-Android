@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     public void TestaBens() {
 
         SQLiteDatabase bancoDados = Db.getConnection(this);
+
         BensSqLite bensDAO = new BensSqLite(bancoDados);
         CentroDeCustoSqLite ccustoDAO = new CentroDeCustoSqLite(bancoDados);
         LocaisSqLite locaisDAO = new LocaisSqLite(bancoDados);

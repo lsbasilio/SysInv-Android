@@ -24,7 +24,7 @@ public class Db {
 
                 criaTabelas();
 
-                Log.i("Conectou", "ao SqLite");
+                //Log.i("Conectou", "ao SqLite");
             }
 
         } catch(SQLiteException e) {
