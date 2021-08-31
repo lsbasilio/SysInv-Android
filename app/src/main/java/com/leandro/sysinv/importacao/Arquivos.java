@@ -7,9 +7,13 @@ import java.io.IOException;
 
 public class Arquivos {
 
-    public static final String nomePasta = "Inventario";
+    public static final String NOME_PASTA = "Inventario";
     public static String pathInventario;
-    //public static final String pathInventario = Environment.getExternalStorageDirectory() +"/" + nomePasta;
+
+    public static final String ARQUIVO_DESCR_PADRAO = "DescrPadrao.csv";
+    public static final String ARQUIVO_DESCR_COMPL = "DescrCompl.csv";
+    public static final String ARQUIVO_LOCAL = "Locais.csv";
+    public static final String ARQUIVO_CCUSTO = "CentroCusto.csv";
 
     public Arquivos() {
     }

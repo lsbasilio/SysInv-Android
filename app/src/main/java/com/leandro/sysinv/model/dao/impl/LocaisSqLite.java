@@ -1,13 +1,20 @@
 package com.leandro.sysinv.model.dao.impl;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
 import com.leandro.sysinv.db.DbException;
+import com.leandro.sysinv.importacao.ArqException;
+import com.leandro.sysinv.importacao.Arquivos;
 import com.leandro.sysinv.model.dao.LocaisDao;
+import com.leandro.sysinv.model.entities.DescrPadrao;
 import com.leandro.sysinv.model.entities.Local;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,6 +124,54 @@ public class LocaisSqLite implements LocaisDao {
         localTemp.setDescricao(cur.getString(1));
 
         return localTemp;
+    }
+
+    public void carregaArquivoCsv(String empresa, Context contexto) throws IOException {
+
+        String nomeArquivo = Arquivos.ARQUIVO_LOCAL;
+        String codigo, descricao;
+        String nomePastaDados = contexto.getFilesDir().getPath();
+
+        Local localTemp = new Local();
+
+        Arquivos.pathInventario = nomePastaDados + "/" + Arquivos.NOME_PASTA;
+
+        if (!Arquivos.pathInventarioExiste(empresa)) {
+            throw new ArqException("Diretório da Importação não existe!");
+        } else if (!Arquivos.fileInventarioExiste(empresa, nomeArquivo)) {
+            throw new ArqException("Arquivo de Importação dos Locais não encontrado!");
+        } else {
+
+            nomeArquivo = Arquivos.pathInventario + "/" + empresa + "/" + nomeArquivo;
+
+            FileReader arq = new FileReader(nomeArquivo);
+            BufferedReader lerArq = new BufferedReader(arq);
+
+            String linha = lerArq.readLine();
+
+            this.deleteAll();
+
+            try {
+
+                while (linha != null) {
+
+                    String dados[] = linha.split(";");
+
+                    codigo = dados[0];
+                    descricao = dados[1];
+
+                    localTemp.setLocal_id(Integer.parseInt(codigo));
+                    localTemp.setDescricao(descricao);
+
+                    this.insert(localTemp);
+
+                    linha = lerArq.readLine();
+                }
+
+            } finally {
+                arq.close();
+            }
+        }
     }
 
 }

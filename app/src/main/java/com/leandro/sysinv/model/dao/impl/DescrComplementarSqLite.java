@@ -1,13 +1,19 @@
 package com.leandro.sysinv.model.dao.impl;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
 import com.leandro.sysinv.db.DbException;
+import com.leandro.sysinv.importacao.ArqException;
+import com.leandro.sysinv.importacao.Arquivos;
 import com.leandro.sysinv.model.dao.DescrComplementarDao;
 import com.leandro.sysinv.model.entities.DescrComplementar;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,6 +123,54 @@ public class DescrComplementarSqLite implements DescrComplementarDao {
         descrTemp.setDescricao(cur.getString(1));
 
         return descrTemp;
+    }
+
+    public void carregaArquivoCsv(String empresa, Context contexto) throws IOException {
+
+        String nomeArquivo = Arquivos.ARQUIVO_DESCR_COMPL;
+        String codigo, descricao;
+        String nomePastaDados = contexto.getFilesDir().getPath();
+
+        DescrComplementar descrTemp = new DescrComplementar();
+
+        Arquivos.pathInventario = nomePastaDados + "/" + Arquivos.NOME_PASTA;
+
+        if (!Arquivos.pathInventarioExiste(empresa)) {
+            throw new ArqException("Diretório da Importação não existe!");
+        } else if (!Arquivos.fileInventarioExiste(empresa, nomeArquivo)) {
+            throw new ArqException("Arquivo de Importação da Descrição Complementar não encontrado!");
+        } else {
+
+            nomeArquivo = Arquivos.pathInventario + "/" + empresa + "/" + nomeArquivo;
+
+            FileReader arq = new FileReader(nomeArquivo);
+            BufferedReader lerArq = new BufferedReader(arq);
+
+            String linha = lerArq.readLine();
+
+            this.deleteAll();
+
+            try {
+
+                while (linha != null) {
+
+                    String dados[] = linha.split(";");
+
+                    codigo = dados[0];
+                    descricao = dados[1];
+
+                    descrTemp.setDescricao_id(codigo);
+                    descrTemp.setDescricao(descricao);
+
+                    this.insert(descrTemp);
+
+                    linha = lerArq.readLine();
+                }
+
+            } finally {
+                arq.close();
+            }
+        }
     }
 
 }

@@ -14,8 +14,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.leandro.sysinv.R;
 import com.leandro.sysinv.db.Db;
+import com.leandro.sysinv.model.dao.impl.CentroDeCustoSqLite;
+import com.leandro.sysinv.model.dao.impl.DescrComplementarSqLite;
 import com.leandro.sysinv.model.dao.impl.DescrPadraoSqLite;
+import com.leandro.sysinv.model.dao.impl.LocaisSqLite;
+import com.leandro.sysinv.model.entities.CentroDeCusto;
+import com.leandro.sysinv.model.entities.DescrComplementar;
 import com.leandro.sysinv.model.entities.DescrPadrao;
+import com.leandro.sysinv.model.entities.Local;
 
 import org.apache.commons.net.ftp.FTPClient;
 
@@ -71,16 +77,16 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     SQLiteDatabase bancoDados = Db.getConnection(getApplicationContext());
 
-                    DescrPadraoSqLite descrPadraoDAO = new DescrPadraoSqLite(bancoDados);
+                    CentroDeCustoSqLite ccustoDAO = new CentroDeCustoSqLite(bancoDados);
 
-                    descrPadraoDAO.carregaArquivoCsv("001", getApplicationContext());
+                    ccustoDAO.carregaArquivoCsv("001", getApplicationContext());
 
-                    List<DescrPadrao> lista = descrPadraoDAO.findAll();
+                    List<CentroDeCusto> lista = ccustoDAO.findAll();
 
-                    for (DescrPadrao descr : lista) {
+                    for (CentroDeCusto ccusto : lista) {
 
-                        Log.i("Resultado - id: ", descr.getDescricao_id());
-                        Log.i("Resultado - nome: ", descr.getDescricao());
+                        Log.i("Resultado - id: ", ccusto.getCcusto_id().toString());
+                        Log.i("Resultado - nome: ", ccusto.getDescricao());
 
                     }
                 } catch (IOException e) {

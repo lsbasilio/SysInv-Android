@@ -129,13 +129,13 @@ public class DescrPadraoSqLite implements DescrPadraoDao {
 
     public void carregaArquivoCsv(String empresa, Context contexto) throws IOException {
 
-        String nomeArquivo = "DescrPadrao.csv";
+        String nomeArquivo = Arquivos.ARQUIVO_DESCR_PADRAO;
         String codigo, descricao;
         String nomePastaDados = contexto.getFilesDir().getPath();
 
         DescrPadrao descrTemp = new DescrPadrao();
 
-        Arquivos.pathInventario = nomePastaDados + "/" + Arquivos.nomePasta;
+        Arquivos.pathInventario = nomePastaDados + "/" + Arquivos.NOME_PASTA;
 
         if (!Arquivos.pathInventarioExiste(empresa)) {
             throw new ArqException("Diretório da Importação não existe!");

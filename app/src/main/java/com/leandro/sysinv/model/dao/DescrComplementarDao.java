@@ -1,7 +1,10 @@
 package com.leandro.sysinv.model.dao;
 
+import android.content.Context;
+
 import com.leandro.sysinv.model.entities.DescrComplementar;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface DescrComplementarDao {
@@ -12,5 +15,6 @@ public interface DescrComplementarDao {
     DescrComplementar findById(String id);
     List<DescrComplementar> findAll();
     void deleteAll();
+    void carregaArquivoCsv(String empresa, Context contexto) throws IOException;
 
 }
