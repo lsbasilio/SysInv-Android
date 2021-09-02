@@ -21,6 +21,7 @@ public class Db {
 
                 dadosOpenHelper = new DadosOpenHelper(context);
                 conn = dadosOpenHelper.getWritableDatabase();
+                //conn = dadosOpenHelper.getReadableDatabase();
 
                 criaTabelas();
 

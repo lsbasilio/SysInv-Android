@@ -1,7 +1,10 @@
 package com.leandro.sysinv.model.dao;
 
+import android.content.Context;
+
 import com.leandro.sysinv.model.entities.Bens;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface BensDao {
@@ -14,5 +17,6 @@ public interface BensDao {
     Bens findById(Integer id);
     List<Bens> findAll();
     void deleteAll();
+    void carregaArquivoCsv(String empresa, Context contexto) throws IOException;
 
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -11,6 +12,7 @@ import androidx.annotation.Nullable;
 
 public class DadosOpenHelper extends SQLiteOpenHelper {
 
+    //private static final String DATABASE_NAME = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Inventario/001/InventarioBD";
     private static final String DATABASE_NAME = "InventarioBD";
 
     public DadosOpenHelper(@Nullable Context context) {

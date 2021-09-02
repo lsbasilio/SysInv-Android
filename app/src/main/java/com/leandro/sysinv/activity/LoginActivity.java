@@ -14,10 +14,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.leandro.sysinv.R;
 import com.leandro.sysinv.db.Db;
+import com.leandro.sysinv.model.dao.impl.BensSqLite;
 import com.leandro.sysinv.model.dao.impl.CentroDeCustoSqLite;
 import com.leandro.sysinv.model.dao.impl.DescrComplementarSqLite;
 import com.leandro.sysinv.model.dao.impl.DescrPadraoSqLite;
 import com.leandro.sysinv.model.dao.impl.LocaisSqLite;
+import com.leandro.sysinv.model.entities.Bens;
 import com.leandro.sysinv.model.entities.CentroDeCusto;
 import com.leandro.sysinv.model.entities.DescrComplementar;
 import com.leandro.sysinv.model.entities.DescrPadrao;
@@ -71,37 +73,40 @@ public class LoginActivity extends AppCompatActivity {
         {
             @Override
             public void onClick(View v) {
-
-                Log.i("Storage Dir", getFilesDir().getPath());
-
                 try {
+                    //Log.i("Storage Dir", getFilesDir().getPath());
+
+                    Log.i("SdCArd", Environment.getExternalStorageDirectory().getAbsolutePath());
+
                     SQLiteDatabase bancoDados = Db.getConnection(getApplicationContext());
 
-                    CentroDeCustoSqLite ccustoDAO = new CentroDeCustoSqLite(bancoDados);
+                    BensSqLite bensDAO = new BensSqLite(bancoDados);
 
-                    ccustoDAO.carregaArquivoCsv("001", getApplicationContext());
+                    bensDAO.carregaArquivoCsv("001", getApplicationContext());
 
-                    List<CentroDeCusto> lista = ccustoDAO.findAll();
+                    List<Bens> lista = bensDAO.findAll();
 
-                    for (CentroDeCusto ccusto : lista) {
+                    for (Bens bem : lista) {
 
-                        Log.i("Resultado - id: ", ccusto.getCcusto_id().toString());
-                        Log.i("Resultado - nome: ", ccusto.getDescricao());
+                        Log.i("Resultado - id: ", bem.getNumero_bem().toString());
+                        Log.i("Resultado - nome: ", bem.getDescricao());
 
                     }
-                } catch (IOException e) {
-                    Log.i("erro", e.getMessage());
+                } catch (IOException i) {
+                   Log.i("Erro", i.getMessage());
                 }
-
                 /*File diretorio = new File(Environment.getExternalStorageDirectory() + "/Inventario");
 
                 if (!diretorio.isDirectory())
                     Log.i("Cartao", "não é diretório");
                 else
-                    Log.i("Cartao", "é diretório");
+                    Log.i("Cartao", "é diretório");*/
 
 
-                try {
+                /*SQLiteDatabase bancoDados = Db.getConnection(getApplicationContext());
+                Log.i("Data", getDatabasePath("InventarioBD").getPath());*/
+
+                /*try {
 
                     conectaFTP();
 

@@ -1,16 +1,23 @@
 package com.leandro.sysinv.model.dao.impl;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
 import com.leandro.sysinv.db.DbException;
+import com.leandro.sysinv.importacao.ArqException;
+import com.leandro.sysinv.importacao.Arquivos;
 import com.leandro.sysinv.model.dao.BensDao;
 import com.leandro.sysinv.model.entities.Bens;
 import com.leandro.sysinv.model.entities.CentroDeCusto;
 import com.leandro.sysinv.model.entities.Local;
+import com.leandro.sysinv.model.entities.enums.BensStatus;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -307,6 +314,63 @@ public class BensSqLite implements BensDao {
 
     }
 
+    public void carregaArquivoCsv(String empresa, Context contexto) throws IOException {
 
+        String nomeArquivo = Arquivos.ARQUIVO_BENS;
+        String codigo, descricao;
+        String nomePastaDados = contexto.getFilesDir().getPath();
 
+        Bens bensTemp = new Bens();
+        CentroDeCusto ccustoTemp = new CentroDeCusto();
+        Local localTemp = new Local();
+
+        Arquivos.pathInventario = nomePastaDados + "/" + Arquivos.NOME_PASTA;
+
+        if (!Arquivos.pathInventarioExiste(empresa)) {
+            throw new ArqException("Diretório da Importação não existe!");
+        } else if (!Arquivos.fileInventarioExiste(empresa, nomeArquivo)) {
+            throw new ArqException("Arquivo de Importação dos Bens não encontrado!");
+        } else {
+
+            nomeArquivo = Arquivos.pathInventario + "/" + empresa + "/" + nomeArquivo;
+
+            FileReader arq = new FileReader(nomeArquivo);
+            BufferedReader lerArq = new BufferedReader(arq);
+
+            String linha = lerArq.readLine();
+
+            this.deleteAll();
+
+            try {
+
+                while (linha != null) {
+
+                    String dados[] = linha.split(";");
+
+                    codigo = dados[0];
+                    //descricao = dados[1];
+
+                    bensTemp.setNumero_bem(Integer.parseInt(codigo));
+                    ccustoTemp.setCcusto_id(Integer.parseInt(dados[1]));
+                    bensTemp.setCcusto_atual(ccustoTemp);
+                    localTemp.setLocal_id(Integer.parseInt(dados[2]));
+                    bensTemp.setLocal_atual(localTemp);
+                    bensTemp.setDescricao(dados[3]);
+                    bensTemp.setMarca(dados[4]);
+                    bensTemp.setModelo(dados[5]);
+                    bensTemp.setNumero_serie(dados[6]);
+                    bensTemp.setConta(Integer.parseInt(dados[7]));
+                    bensTemp.setSituacao(dados[8]);
+                    bensTemp.setStatus(BensStatus.PENDENTE);
+
+                    this.insert(bensTemp);
+
+                    linha = lerArq.readLine();
+                }
+
+            } finally {
+                arq.close();
+            }
+        }
+    }
 }

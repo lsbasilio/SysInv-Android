@@ -14,6 +14,7 @@ public class Arquivos {
     public static final String ARQUIVO_DESCR_COMPL = "DescrCompl.csv";
     public static final String ARQUIVO_LOCAL = "Locais.csv";
     public static final String ARQUIVO_CCUSTO = "CentroCusto.csv";
+    public static final String ARQUIVO_BENS = "Bens.csv";
 
     public Arquivos() {
     }
