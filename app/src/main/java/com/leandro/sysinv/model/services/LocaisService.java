@@ -11,10 +11,11 @@ import java.util.List;
 public class LocaisService {
 
     private Context context;
-    private LocaisDao dao = DaoFactory.createLocaisDao(this.context);
+    private LocaisDao dao; //= DaoFactory.createLocaisDao(this.context);
 
     public LocaisService(Context context) {
         this.context = context;
+        dao = DaoFactory.createLocaisDao(this.context);
     }
 
     public void saveOrUpdate(Local obj) {

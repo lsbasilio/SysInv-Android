@@ -1,6 +1,8 @@
 package com.leandro.sysinv.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.leandro.sysinv.R;
+import com.leandro.sysinv.adapter.AdapterLocais;
 import com.leandro.sysinv.db.DadosOpenHelper;
 import com.leandro.sysinv.db.Db;
 import com.leandro.sysinv.model.dao.impl.BensSqLite;
@@ -21,12 +24,16 @@ import com.leandro.sysinv.model.entities.DescrComplementar;
 import com.leandro.sysinv.model.entities.DescrPadrao;
 import com.leandro.sysinv.model.entities.Local;
 import com.leandro.sysinv.model.entities.enums.CcustoStatus;
+import com.leandro.sysinv.model.services.LocaisService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private SQLiteDatabase bancoDados;
+    private RecyclerView recyclerLocais;
+    private List<Local> listaLocais = new ArrayList<>();
 
 
     @Override
@@ -34,11 +41,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        recyclerLocais = findViewById(R.id.recyclerLocais);
+
+        // Obtendo lista de Locais
+        LocaisService service = new LocaisService(this);
+        listaLocais = service.findAll();
+
+        // Configurar Adapter
+        AdapterLocais adapterLocais = new AdapterLocais( listaLocais );
+
+        // Configurar RecyclerView
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerLocais.setLayoutManager(layoutManager);
+        recyclerLocais.setHasFixedSize(true);   // Otimização: tamanho fixo
+        recyclerLocais.setAdapter( adapterLocais );
+
+
         //SQLiteDatabase bancoDados2 = openOrCreateDatabase("app", MODE_PRIVATE, null);
 
        // Db conn = new Db();
 
-        TestaBens();
+        //TestaBens();
 
         //bensDAO.deleteById(2);
 
@@ -52,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
         }*/
 
-        Db.closeConnection();
+        //Db.closeConnection();
 
     }
 

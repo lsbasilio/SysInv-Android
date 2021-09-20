@@ -80,16 +80,16 @@ public class LoginActivity extends AppCompatActivity {
 
                     SQLiteDatabase bancoDados = Db.getConnection(getApplicationContext());
 
-                    BensSqLite bensDAO = new BensSqLite(bancoDados);
+                    LocaisSqLite locaisDAO = new LocaisSqLite(bancoDados);
 
-                    bensDAO.carregaArquivoCsv("001", getApplicationContext());
+                    locaisDAO.carregaArquivoCsv("001", getApplicationContext());
 
-                    List<Bens> lista = bensDAO.findAll();
+                    List<Local> lista = locaisDAO.findAll();
 
-                    for (Bens bem : lista) {
+                    for (Local loc : lista) {
 
-                        Log.i("Resultado - id: ", bem.getNumero_bem().toString());
-                        Log.i("Resultado - nome: ", bem.getDescricao());
+                        Log.i("Resultado - id: ", loc.getLocal_id().toString());
+                        Log.i("Resultado - nome: ", loc.getDescricao());
 
                     }
                 } catch (IOException i) {
