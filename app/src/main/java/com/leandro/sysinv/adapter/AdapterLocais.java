@@ -1,5 +1,7 @@
 package com.leandro.sysinv.adapter;
 
+import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +16,16 @@ import com.leandro.sysinv.model.entities.Local;
 
 import java.util.List;
 
+import static android.provider.Settings.Global.getString;
+
 public class AdapterLocais extends RecyclerView.Adapter<AdapterLocais.MyViewHolder> {
 
     private List<Local> listaLocais;
+    private Context context;
 
-    public AdapterLocais(List<Local> lista) {
+    public AdapterLocais(List<Local> lista, Context context) {
         this.listaLocais = lista;
+        this.context = context;
     }
 
     @NonNull
@@ -37,9 +43,10 @@ public class AdapterLocais extends RecyclerView.Adapter<AdapterLocais.MyViewHold
         Local local = listaLocais.get(position);
         holder.codigo.setText(String.valueOf(local.getLocal_id()));
         holder.descricao.setText(local.getDescricao());
+        holder.totalBens.setText( this.context.getString(R.string.total_bens_local, local.getTotalBens()) );
+        //holder.totalBens.setText( "Total de Bens: " + local.getTotalBens());
 
-        Log.i("Passou", "Bindou");
-
+        //Log.i("Passou", "Bindou");
     }
 
     @Override
@@ -51,12 +58,14 @@ public class AdapterLocais extends RecyclerView.Adapter<AdapterLocais.MyViewHold
 
         TextView codigo;
         TextView descricao;
+        TextView totalBens;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             codigo = itemView.findViewById(R.id.textCodigo);
             descricao = itemView.findViewById(R.id.textDescricao);
+            totalBens = itemView.findViewById(R.id.textTotalBens);
 
         }
     }

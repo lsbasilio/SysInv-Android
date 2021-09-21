@@ -87,9 +87,20 @@ public class LocaisSqLite implements LocaisDao {
     }
 
     public List<Local> findAll() {
+
+        String sql;
+
         try {
 
-            Cursor cursor = conn.rawQuery("SELECT * FROM locais ORDER BY descricao", null);
+            //Cursor cursor = conn.rawQuery("SELECT * FROM locais ORDER BY descricao", null);
+            sql = "SELECT l.local_id,  l.descricao, " +
+                  "(SELECT COUNT(*) FROM bens b WHERE l.local_id = b.local_id) AS total_bens " +
+                  "FROM " +
+                  "locais l " +
+                  "GROUP BY 1,2 " +
+                  "ORDER BY descricao";
+
+            Cursor cursor = conn.rawQuery(sql, null);
 
             List<Local> list = new ArrayList<>();
 
@@ -122,6 +133,7 @@ public class LocaisSqLite implements LocaisDao {
         Local localTemp = new Local();
         localTemp.setLocal_id(cur.getInt(0));
         localTemp.setDescricao(cur.getString(1));
+        localTemp.setTotalBens(cur.getInt(2));
 
         return localTemp;
     }

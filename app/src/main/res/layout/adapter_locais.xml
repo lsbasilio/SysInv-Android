@@ -15,13 +15,15 @@
             android:layout_width="62dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Código" />
+            android:text="Código"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textDescricao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="4"
+            android:gravity="left"
             android:text="Descrição" />
     </LinearLayout>
 
@@ -29,5 +31,5 @@
         android:id="@+id/textTotalBens"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="Total de Bens:" />
 </LinearLayout>

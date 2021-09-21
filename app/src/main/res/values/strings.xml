@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">SysInv</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="total_bens_local">Total de Bens: %d</string>
 </resources>

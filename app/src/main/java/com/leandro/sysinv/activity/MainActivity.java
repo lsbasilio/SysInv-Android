@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         listaLocais = service.findAll();
 
         // Configurar Adapter
-        AdapterLocais adapterLocais = new AdapterLocais( listaLocais );
+        AdapterLocais adapterLocais = new AdapterLocais( listaLocais, getApplicationContext() );
 
         // Configurar RecyclerView
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());

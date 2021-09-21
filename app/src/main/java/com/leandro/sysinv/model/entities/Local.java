@@ -4,6 +4,7 @@ public class Local {
 
     private Integer local_id;
     private String descricao;
+    private Integer totalBens;
 
     public Local() {
 
@@ -30,11 +31,20 @@ public class Local {
         this.descricao = descricao;
     }
 
+    public Integer getTotalBens() {
+        return totalBens;
+    }
+
+    public void setTotalBens(Integer totalBens) {
+        this.totalBens = totalBens;
+    }
+
     @Override
     public String toString() {
         return "Local{" +
                 "local_id=" + local_id +
                 ", descricao='" + descricao + '\'' +
+                ", totalBens=" + totalBens +
                 '}';
     }
 
