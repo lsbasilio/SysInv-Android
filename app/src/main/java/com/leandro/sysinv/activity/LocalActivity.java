@@ -4,32 +4,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.leandro.sysinv.R;
 import com.leandro.sysinv.adapter.AdapterLocais;
-import com.leandro.sysinv.db.DadosOpenHelper;
 import com.leandro.sysinv.db.Db;
 import com.leandro.sysinv.model.dao.impl.BensSqLite;
 import com.leandro.sysinv.model.dao.impl.CentroDeCustoSqLite;
-import com.leandro.sysinv.model.dao.impl.DescrComplementarSqLite;
-import com.leandro.sysinv.model.dao.impl.DescrPadraoSqLite;
 import com.leandro.sysinv.model.dao.impl.LocaisSqLite;
 import com.leandro.sysinv.model.entities.Bens;
 import com.leandro.sysinv.model.entities.CentroDeCusto;
-import com.leandro.sysinv.model.entities.DescrComplementar;
-import com.leandro.sysinv.model.entities.DescrPadrao;
 import com.leandro.sysinv.model.entities.Local;
-import com.leandro.sysinv.model.entities.enums.CcustoStatus;
 import com.leandro.sysinv.model.services.LocaisService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class LocalActivity extends AppCompatActivity {
 
     private SQLiteDatabase bancoDados;
     private RecyclerView recyclerLocais;
@@ -39,13 +32,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_locais);
 
         recyclerLocais = findViewById(R.id.recyclerLocais);
 
         // Obtendo lista de Locais
         LocaisService service = new LocaisService(this);
         listaLocais = service.findAll();
+        /*Local local = service.findById(34000);
+        listaLocais.add(local);*/
 
         // Configurar Adapter
         AdapterLocais adapterLocais = new AdapterLocais( listaLocais, getApplicationContext() );
@@ -55,27 +50,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerLocais.setLayoutManager(layoutManager);
         recyclerLocais.setHasFixedSize(true);   // Otimização: tamanho fixo
         recyclerLocais.setAdapter( adapterLocais );
-
-
-        //SQLiteDatabase bancoDados2 = openOrCreateDatabase("app", MODE_PRIVATE, null);
-
-       // Db conn = new Db();
-
-        //TestaBens();
-
-        //bensDAO.deleteById(2);
-
-        /*Cursor cur = bancoDados.rawQuery("SELECT * FROM bens", null);
-
-        while (cur.moveToNext()) {
-            Log.i("Resultado - id: ", cur.getString(0));
-            Log.i("Resultado - nome: ", cur.getString(9));
-            Log.i("Resultado - ccusto: ", cur.getString(1));
-            Log.i("Resultado - local: ", cur.getString(7));
-
-        }*/
-
-        //Db.closeConnection();
 
     }
 

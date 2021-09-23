@@ -22,6 +22,13 @@ public class LocaisSqLite implements LocaisDao {
 
     private SQLiteDatabase conn;
     private String strSQL;
+    private String strSelectSQL = "SELECT l.local_id,  l.descricao, " +
+                                  "(SELECT COUNT(*) FROM bens b WHERE l.local_id = b.local_id) AS total_bens " +
+                                  "FROM " +
+                                  "locais l ";
+    private String strWhereSQL   = "WHERE l.local_id = ? ";
+    private String strGroupBySQL = "GROUP BY 1,2 ";
+    private String strOrderBySQL = "ORDER BY descricao";
 
     public LocaisSqLite(SQLiteDatabase conn) {
         this.conn = conn;
@@ -73,7 +80,9 @@ public class LocaisSqLite implements LocaisDao {
     public Local findById(Integer id) {
         try {
 
-            Cursor cursor = conn.rawQuery("SELECT * FROM locais WHERE Local_Id = " + id, null);
+            //Cursor cursor = conn.rawQuery("SELECT * FROM locais WHERE Local_Id = " + id, null);
+            strSQL = strSelectSQL + strWhereSQL + strGroupBySQL + strOrderBySQL;
+            Cursor cursor = conn.rawQuery(strSQL,  new String[]{String.valueOf(id)});
 
             if (cursor.moveToFirst()) {
                 return instantiateLocal(cursor);
@@ -88,19 +97,12 @@ public class LocaisSqLite implements LocaisDao {
 
     public List<Local> findAll() {
 
-        String sql;
-
         try {
 
             //Cursor cursor = conn.rawQuery("SELECT * FROM locais ORDER BY descricao", null);
-            sql = "SELECT l.local_id,  l.descricao, " +
-                  "(SELECT COUNT(*) FROM bens b WHERE l.local_id = b.local_id) AS total_bens " +
-                  "FROM " +
-                  "locais l " +
-                  "GROUP BY 1,2 " +
-                  "ORDER BY descricao";
+            strSQL = strSelectSQL + strGroupBySQL + strOrderBySQL;
 
-            Cursor cursor = conn.rawQuery(sql, null);
+            Cursor cursor = conn.rawQuery(strSQL, null);
 
             List<Local> list = new ArrayList<>();
 

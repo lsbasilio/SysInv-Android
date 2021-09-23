@@ -1,6 +1,5 @@
 package com.leandro.sysinv.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -14,20 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.leandro.sysinv.R;
 import com.leandro.sysinv.db.Db;
-import com.leandro.sysinv.model.dao.impl.BensSqLite;
-import com.leandro.sysinv.model.dao.impl.CentroDeCustoSqLite;
-import com.leandro.sysinv.model.dao.impl.DescrComplementarSqLite;
-import com.leandro.sysinv.model.dao.impl.DescrPadraoSqLite;
 import com.leandro.sysinv.model.dao.impl.LocaisSqLite;
-import com.leandro.sysinv.model.entities.Bens;
-import com.leandro.sysinv.model.entities.CentroDeCusto;
-import com.leandro.sysinv.model.entities.DescrComplementar;
-import com.leandro.sysinv.model.entities.DescrPadrao;
 import com.leandro.sysinv.model.entities.Local;
 
 import org.apache.commons.net.ftp.FTPClient;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.SocketException;
 import java.util.List;
@@ -61,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     Log.i("Entrou aqui", "Passou aqui");
 
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), LocalActivity.class);
                     startActivity( intent );
 
                 }
