@@ -70,4 +70,7 @@ public class AdapterLocais extends RecyclerView.Adapter<AdapterLocais.MyViewHold
         }
     }
 
+    public void setListaLocais(List<Local> listaLocais) {
+        this.listaLocais = listaLocais;
+    }
 }

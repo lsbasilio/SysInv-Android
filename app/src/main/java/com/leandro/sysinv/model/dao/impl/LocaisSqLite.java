@@ -27,6 +27,7 @@ public class LocaisSqLite implements LocaisDao {
                                   "FROM " +
                                   "locais l ";
     private String strWhereSQL   = "WHERE l.local_id = ? ";
+    private String strWhereDescricaoSQL   = "";
     private String strGroupBySQL = "GROUP BY 1,2 ";
     private String strOrderBySQL = "ORDER BY descricao";
 
@@ -89,6 +90,33 @@ public class LocaisSqLite implements LocaisDao {
             }
 
             return null;
+
+        } catch (SQLiteException e) {
+            throw new DbException(e.getMessage());
+        }
+    }
+
+    public List<Local> findByDescricao(String descricao) {
+
+        try {
+
+            //Cursor cursor = conn.rawQuery("SELECT * FROM locais ORDER BY descricao", null);
+            //strSQL = strSelectSQL + strWhereDescricaoSQL + strGroupBySQL + strOrderBySQL;
+            descricao = "'%" + descricao + "%'";
+            strWhereDescricaoSQL = "WHERE l.descricao like " + descricao;
+            strSQL = strSelectSQL + strWhereDescricaoSQL + strGroupBySQL + strOrderBySQL;
+
+            //Cursor cursor = conn.rawQuery(strSQL, new String[]{ descricao });
+            Cursor cursor = conn.rawQuery(strSQL, null);
+
+            List<Local> list = new ArrayList<>();
+
+            while (cursor.moveToNext()) {
+                Local local = instantiateLocal(cursor);
+                list.add(local);
+            }
+
+            return list;
 
         } catch (SQLiteException e) {
             throw new DbException(e.getMessage());

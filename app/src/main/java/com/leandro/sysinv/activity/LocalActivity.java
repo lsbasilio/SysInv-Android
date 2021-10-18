@@ -1,12 +1,19 @@
 package com.leandro.sysinv.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leandro.sysinv.R;
 import com.leandro.sysinv.adapter.AdapterLocais;
@@ -25,9 +32,12 @@ import java.util.List;
 public class LocalActivity extends AppCompatActivity {
 
     private SQLiteDatabase bancoDados;
+    private LocaisService service;
+    private AdapterLocais adapterLocais;
     private RecyclerView recyclerLocais;
     private List<Local> listaLocais = new ArrayList<>();
-
+    private ImageView imageBusca;
+    private EditText textBusca;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,21 +45,66 @@ public class LocalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_locais);
 
         recyclerLocais = findViewById(R.id.recyclerLocais);
+        imageBusca = findViewById(R.id.imageBusca);
+        textBusca = findViewById(R.id.textBusca);
+
 
         // Obtendo lista de Locais
-        LocaisService service = new LocaisService(this);
+        //LocaisService service = new LocaisService(this);
+        service = new LocaisService(this);
         listaLocais = service.findAll();
         /*Local local = service.findById(34000);
         listaLocais.add(local);*/
 
         // Configurar Adapter
-        AdapterLocais adapterLocais = new AdapterLocais( listaLocais, getApplicationContext() );
+        adapterLocais = new AdapterLocais( listaLocais, getApplicationContext() );
 
         // Configurar RecyclerView
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerLocais.setLayoutManager(layoutManager);
         recyclerLocais.setHasFixedSize(true);   // Otimização: tamanho fixo
+        recyclerLocais.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
         recyclerLocais.setAdapter( adapterLocais );
+
+    }
+
+    public void onClickBusca(View v) {
+
+        String strBusca = textBusca.getText().toString().trim();
+        boolean findByDescricao = false;
+        Toast toast;
+
+        if (!strBusca.isEmpty()) {
+            listaLocais = service.findByDescricao(strBusca);
+            findByDescricao = true;
+        } else {
+            listaLocais = service.findAll();
+        }
+
+        if (!listaLocais.isEmpty()) {
+
+            adapterLocais = null;
+            adapterLocais = new AdapterLocais( listaLocais, getApplicationContext() );
+            recyclerLocais.setAdapter( adapterLocais );
+
+            if (findByDescricao) {
+
+                toast = Toast.makeText(getApplicationContext(), "Foram encontrados " + listaLocais.size() + " Locais com a palavra '" + strBusca + "'", Toast.LENGTH_LONG);
+                toast.show();
+
+            } else {
+
+                toast = Toast.makeText(getApplicationContext(), "Foram encontrados " + listaLocais.size() + " Locais", Toast.LENGTH_LONG);
+                toast.show();
+
+            }
+
+        } else {
+
+            toast = Toast.makeText(getApplicationContext(), "Nenhum Local encontrado!", Toast.LENGTH_LONG);
+            toast.show();
+
+        }
 
     }
 

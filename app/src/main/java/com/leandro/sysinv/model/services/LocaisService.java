@@ -33,6 +33,10 @@ public class LocaisService {
         return dao.findAll();
     }
 
+    public List<Local> findByDescricao(String descricao) {
+        return dao.findByDescricao(descricao);
+    }
+
     public void remove(Local obj) {
         dao.deleteById(obj.getLocal_id());
     }

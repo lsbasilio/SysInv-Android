@@ -14,6 +14,7 @@ public interface LocaisDao {
     void deleteById(Integer id);
     Local findById(Integer id);
     List<Local> findAll();
+    List<Local> findByDescricao(String descricao);
     void deleteAll();
     void carregaArquivoCsv(String empresa, Context contexto) throws IOException;
 }
