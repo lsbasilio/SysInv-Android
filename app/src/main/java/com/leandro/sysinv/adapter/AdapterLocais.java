@@ -1,11 +1,11 @@
 package com.leandro.sysinv.adapter;
 
 import android.content.Context;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,8 +15,6 @@ import com.leandro.sysinv.R;
 import com.leandro.sysinv.model.entities.Local;
 
 import java.util.List;
-
-import static android.provider.Settings.Global.getString;
 
 public class AdapterLocais extends RecyclerView.Adapter<AdapterLocais.MyViewHolder> {
 
@@ -44,9 +42,9 @@ public class AdapterLocais extends RecyclerView.Adapter<AdapterLocais.MyViewHold
         holder.codigo.setText(String.valueOf(local.getLocal_id()));
         holder.descricao.setText(local.getDescricao());
         holder.totalBens.setText( this.context.getString(R.string.total_bens_local, local.getTotalBens()) );
-        //holder.totalBens.setText( "Total de Bens: " + local.getTotalBens());
+        holder.imageEditar.setTag( position );
+        holder.imageExcluir.setTag( position );
 
-        //Log.i("Passou", "Bindou");
     }
 
     @Override
@@ -59,6 +57,8 @@ public class AdapterLocais extends RecyclerView.Adapter<AdapterLocais.MyViewHold
         TextView codigo;
         TextView descricao;
         TextView totalBens;
+        ImageView imageEditar;
+        ImageView imageExcluir;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -66,6 +66,8 @@ public class AdapterLocais extends RecyclerView.Adapter<AdapterLocais.MyViewHold
             codigo = itemView.findViewById(R.id.textCodigo);
             descricao = itemView.findViewById(R.id.textDescricao);
             totalBens = itemView.findViewById(R.id.textTotalBens);
+            imageEditar = itemView.findViewById(R.id.imageEditar);
+            imageExcluir = itemView.findViewById(R.id.imageExcluir);
 
         }
     }
@@ -73,4 +75,5 @@ public class AdapterLocais extends RecyclerView.Adapter<AdapterLocais.MyViewHold
     public void setListaLocais(List<Local> listaLocais) {
         this.listaLocais = listaLocais;
     }
+
 }

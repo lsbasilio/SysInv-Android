@@ -83,8 +83,7 @@ public class LocalActivity extends AppCompatActivity {
 
         if (!listaLocais.isEmpty()) {
 
-            adapterLocais = null;
-            adapterLocais = new AdapterLocais( listaLocais, getApplicationContext() );
+            adapterLocais.setListaLocais( listaLocais );
             recyclerLocais.setAdapter( adapterLocais );
 
             if (findByDescricao) {
@@ -106,6 +105,18 @@ public class LocalActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    public void onClickEdita(View v) {
+        ImageView imagem = v.findViewById(R.id.imageEditar);
+        int item = (int) imagem.getTag();
+        Log.i("Local", listaLocais.get( item ).getLocal_id().toString());
+    }
+
+    public void onClickExclui(View v) {
+        ImageView imagem = v.findViewById(R.id.imageExcluir);
+        int item = (int) imagem.getTag();
+        Log.i("Exclui", listaLocais.get( item ).getLocal_id().toString());
     }
 
     public void TestaBens() {
